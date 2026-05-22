@@ -26,10 +26,6 @@ def start(message):
     )
 
 
-@bot.message_handler(commands=['vip'])
-def vip(message):
-    markup = InlineKeyboardMarkup(row_width=1)
-
     markup.add(
         InlineKeyboardButton("⚡ VIP SEMANAL — R$7,99", callback_data="vip_semanal"),
         InlineKeyboardButton("🔥 VIP MENSAL — R$19,99", callback_data="vip_mensal"),
