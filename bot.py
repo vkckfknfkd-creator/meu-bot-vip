@@ -10,7 +10,6 @@ PIX = "15a51d92-9c05-45d3-a748-eb8354d06188"
 SUPORTE = "https://t.me/Suporteuvip"
 
 bot = telebot.TeleBot(TOKEN)
-
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = InlineKeyboardMarkup()
@@ -26,33 +25,35 @@ def start(message):
     )
 
 
-    markup.add(
-        InlineKeyboardButton("⚡ VIP SEMANAL — R$7,99", callback_data="vip_semanal"),
-        InlineKeyboardButton("🔥 VIP MENSAL — R$19,99", callback_data="vip_mensal"),
-        InlineKeyboardButton("👑 VIP VITALÍCIO — R$42,99", callback_data="vip_vitalicio"),
-        InlineKeyboardButton("📞 SUPORTE", url=SUPORTE)
-    )
-
-    bot.send_message(
-        message.chat.id,
-        "🔥 VIP OFICIAL 🔥\n\n"
-        "🚀 Acesso imediato\n"
-        "💎 Conteúdo exclusivo\n"
-        "📦 Atualizações constantes\n\n"
-        "💳 Escolha seu plano abaixo:",
-        reply_markup=markup
-    )
-
-
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
 
     bot.answer_callback_query(call.id)
 
-    markup = InlineKeyboardMarkup()
-    markup.add(InlineKeyboardButton("📞 ENVIAR COMPROVANTE", url=SUPORTE))
+    # ================= MENU VIP =================
+    if call.data == "vip_menu":
 
-    if call.data == "vip_semanal":
+        markup = InlineKeyboardMarkup()
+
+        markup.add(
+            InlineKeyboardButton("⚡ VIP SEMANAL — R$7,99", callback_data="vip_semanal"),
+            InlineKeyboardButton("🔥 VIP MENSAL — R$19,99", callback_data="vip_mensal"),
+            InlineKeyboardButton("👑 VIP VITALÍCIO — R$42,99", callback_data="vip_vitalicio"),
+            InlineKeyboardButton("📞 SUPORTE", url=SUPORTE)
+        )
+
+        bot.send_message(
+            call.message.chat.id,
+            "🔥 VIP OFICIAL 🔥\n\n"
+            "🚀 Acesso imediato\n"
+            "💎 Conteúdo exclusivo\n"
+            "📦 Atualizações constantes\n\n"
+            "💳 Escolha seu plano abaixo:",
+            reply_markup=markup
+        )
+
+    # ================= PLANOS =================
+    elif call.data == "vip_semanal":
         msg = f"""⚡ VIP SEMANAL
 
 💰 R$7,99
@@ -88,9 +89,10 @@ PIX:
     else:
         return
 
-    bot.send_message(call.message.chat.id, msg, reply_markup=markup)
-
-
-print("BOT ONLINE")
-
-bot.infinity_polling(skip_pending=True)
+    bot.send_message(
+        call.message.chat.id,
+        msg,
+        reply_markup=InlineKeyboardMarkup().add(
+            InlineKeyboardButton("📞 ENVIAR COMPROVANTE", url=SUPORTE)
+        )
+    )
