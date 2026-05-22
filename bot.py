@@ -11,10 +11,19 @@ SUPORTE = "https://t.me/Suporteuvip"
 
 bot = telebot.TeleBot(TOKEN)
 
-
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_message(message.chat.id, "👋 Bem-vindo ao bot!")
+    markup = InlineKeyboardMarkup()
+
+    markup.add(
+        InlineKeyboardButton("💎 Ver VIP", callback_data="vip_menu")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "👋 Bem-vindo!\n\nClique abaixo para ver os planos VIP:",
+        reply_markup=markup
+    )
 
 
 @bot.message_handler(commands=['vip'])
