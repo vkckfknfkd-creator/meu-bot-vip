@@ -15,7 +15,14 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "👋 Bem-vindo ao bot!")
 
+
+@bot.message_handler(commands=['vip'])
+def vip(message):
+    bot.send_message(message.chat.id, "💎 VIP R$7,99 - pagamento em breve")
     markup = InlineKeyboardMarkup(row_width=1)
 
     markup.add(
