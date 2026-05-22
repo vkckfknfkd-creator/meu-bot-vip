@@ -1,7 +1,6 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from flask import Flask, request
-import telebot
 import mercadopago
 
 app = Flask(__name__)
